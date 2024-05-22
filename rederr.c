@@ -130,8 +130,8 @@ int main(int argc, char *argv[]) {
         if (dup2(child_stderr[1], 2) == -1) goto panic;
 
         execvp(argv[1], &argv[1]);
-
-        goto panic;
+        fprintf(stderr, "Failed to exec (%d): %s\n", errno, strerror(errno));
+        return 111;
     } else {
         close(child_stdout[1]);
         close(child_stderr[1]);
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
         int stdout_closed = 0;
         int stderr_closed = 0;
 
-        while (!stdout_closed && !stderr_closed) {
+        while (!stdout_closed || !stderr_closed) {
             FD_ZERO(&read_fds);
 
             if (!stdout_closed) {
@@ -170,11 +170,11 @@ int main(int argc, char *argv[]) {
             int ready = select(maxfd, &read_fds, NULL, NULL, &timeout);
             if (ready == -1) goto panic_kill;
             if (ready) {
-                if (FD_ISSET(child_stdout[0], &read_fds)) {
+                if (!stdout_closed && FD_ISSET(child_stdout[0], &read_fds)) {
                     stdout_closed = handle_chunk(stdout_prefix, stdout_prefix_len, stdout_suffix, stdout_suffix_len, 1, child_stdout[0]);
                     if (stdout_closed == -1) goto panic_kill;
                 }
-                if (FD_ISSET(child_stderr[0], &read_fds)) {
+                if (!stderr_closed && FD_ISSET(child_stderr[0], &read_fds)) {
                     stderr_closed = handle_chunk(stderr_prefix, stderr_prefix_len, stderr_suffix, stderr_suffix_len, 2, child_stderr[0]);
                     if (stderr_closed == -1) goto panic_kill;
                 }
@@ -182,8 +182,15 @@ int main(int argc, char *argv[]) {
         }
 
         int status;
-        waitpid(child_pid, &status, 0);
-        return status;
+        if (waitpid(child_pid, &status, 0) == -1) goto panic;
+        if (WIFEXITED(status)) {
+            return WEXITSTATUS(status);
+        }
+        if (WIFSIGNALED(status)) {
+            fprintf(stderr, "Child exited with signal %d\n", WTERMSIG(status));
+            return 111;
+        }
+        return 111;
     }
 
 panic_kill:
