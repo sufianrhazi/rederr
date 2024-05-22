@@ -75,10 +75,7 @@ int main(int argc, char *argv[]) {
         close(child_stderr[0]);
         if (dup2(child_stdout[1], 1) == -1) goto panic;
         if (dup2(child_stderr[1], 2) == -1) goto panic;
-        int rc = execvp(argv[1], &argv[1]);
-        if (rc == -1) {
-            printf("%d: %s\n", errno, strerror(errno));
-        }
+        execvp(argv[1], &argv[1]);
         goto panic;
     } else {
         close(child_stdout[1]);
