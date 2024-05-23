@@ -88,6 +88,8 @@ int main(int argc, char *argv[]) {
         );
         if (argc >= 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
             printf("\n");
+            printf("Version: 1.0.0\n");
+            printf("\n");
             printf("Environment variables:\n");
             printf("    REDERR_STDOUT_PREFIX\n");
             printf("        bytes to write before stdout; default: \"\"\n");

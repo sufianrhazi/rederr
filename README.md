@@ -37,6 +37,7 @@ a SHA-256 checksum of `4047fd8848875f9441fc22bd6bb674c273d68ddd10a9d800d6cd80fdf
 
 If you are running on Windows, use `.com` file extension is needed for the command to execute correctly. If you are
 running on MacOS, Linux, or any \*BSD (note: I have not manually confirmed \*BSD support), you can use either. If you
-use `zsh` or `fish`, you may need to update to a recent version (see [https://github.com/jart/cosmopolitan/issues/88](https://github.com/jart/cosmopolitan/issues/88)).
+use `zsh` or `fish`, you may need to update to a recent version (see
+[https://github.com/jart/cosmopolitan/issues/88](https://github.com/jart/cosmopolitan/issues/88)).
 
 To build it yourself, run `make`. You can set the `CC` environment variable to specify your compiler of choice. 

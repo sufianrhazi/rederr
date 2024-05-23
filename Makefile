@@ -1,2 +1,4 @@
+CC?=cc
+
 rederr: rederr.c
-	cc -o rederr rederr.c
+	$(CC) -o rederr rederr.c
