@@ -149,6 +149,7 @@ int main(int argc, char *argv[]) {
         if (sigaction(SIGQUIT, &signal_ignore, NULL) == -1) goto panic_kill;
 
         fd_set read_fds;
+        fd_set except_fds;
         struct timeval timeout;
         int maxfd = (child_stdout[0] < child_stderr[0] ? child_stderr[0] : child_stdout[0]) + 1;
         int stdout_closed = 0;
@@ -156,20 +157,33 @@ int main(int argc, char *argv[]) {
 
         while (!stdout_closed || !stderr_closed) {
             FD_ZERO(&read_fds);
+            FD_ZERO(&except_fds);
 
             if (!stdout_closed) {
                 FD_SET(child_stdout[0], &read_fds);
+                FD_SET(child_stdout[0], &except_fds);
             }
             if (!stderr_closed) {
                 FD_SET(child_stderr[0], &read_fds);
+                FD_SET(child_stderr[0], &except_fds);
             }
 
             timeout.tv_sec = 1;
             timeout.tv_usec = 0;
 
-            int ready = select(maxfd, &read_fds, NULL, NULL, &timeout);
+            int ready = select(maxfd, &read_fds, NULL, &except_fds, &timeout);
             if (ready == -1) goto panic_kill;
             if (ready) {
+                if (!stdout_closed && FD_ISSET(child_stdout[0], &except_fds)) {
+                    // Something went terribly wrong, close the pipe
+                    close(child_stdout[0]);
+                    stdout_closed = 1;
+                }
+                if (!stderr_closed && FD_ISSET(child_stderr[0], &except_fds)) {
+                    // Something went terribly wrong, close the pipe
+                    close(child_stderr[0]);
+                    stderr_closed = 1;
+                }
                 if (!stdout_closed && FD_ISSET(child_stdout[0], &read_fds)) {
                     stdout_closed = handle_chunk(stdout_prefix, stdout_prefix_len, stdout_suffix, stdout_suffix_len, 1, child_stdout[0]);
                     if (stdout_closed == -1) goto panic_kill;
