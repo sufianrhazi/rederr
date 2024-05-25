@@ -32,7 +32,7 @@ Sometimes you just want to see stdin in red and stdout in white.
 
 Binary [αcτµαlly pδrταblε εxεcµταblε](https://justine.lol/ape.html) builds of rederr can be found at:
 [https://abstract.properties/misc/rederr](https://abstract.properties/misc/rederr) and
-[https://abstract.properties/misc/rederr](https://abstract.properties/misc/rederr.com). They both are identical and have
+[https://abstract.properties/misc/rederr.com](https://abstract.properties/misc/rederr.com). They both are identical and have
 a SHA-256 checksum of `4047fd8848875f9441fc22bd6bb674c273d68ddd10a9d800d6cd80fdf50239bd`.
 
 If you are running on Windows, use `.com` file extension is needed for the command to execute correctly. If you are
