@@ -35,14 +35,16 @@ Sometimes you just want to see stdin in red and stdout in white.
 
 ## Building and installation
 
-Binary [αcτµαlly pδrταblε εxεcµταblε](https://justine.lol/ape.html) builds of rederr can be found at:
-[https://abstract.properties/misc/rederr](https://abstract.properties/misc/rederr) and
-[https://abstract.properties/misc/rederr.com](https://abstract.properties/misc/rederr.com). They both are identical and have
-a SHA-256 checksum of `4047fd8848875f9441fc22bd6bb674c273d68ddd10a9d800d6cd80fdf50239bd`.
+Binary builds of rederr can be found at: https://abstract.properties/misc/rederr and https://abstract.properties/misc/rederr.com. Both are identical and have a SHA-256 checksum of 4047fd8848875f9441fc22bd6bb674c273d68ddd10a9d800d6cd80fdf50239bd.
 
-If you are running on Windows, use `.com` file extension is needed for the command to execute correctly. If you are
-running on MacOS, Linux, or any \*BSD (note: I have not manually confirmed \*BSD support), you can use either. If you
-use `zsh` or `fish`, you may need to update to a recent version (see
-[https://github.com/jart/cosmopolitan/issues/88](https://github.com/jart/cosmopolitan/issues/88)).
+These are αcτµαlly pδrταblε εxεcµταblε builds built with cosmopolitan libc, which means they are fat binary executables that run on practically any platform: Linux + Mac + Windows + FreeBSD + OpenBSD + NetBSD + BIOS on AMD64 and ARM64.
 
-To build it yourself, run `make`. You can set the `CC` environment variable to specify your compiler of choice. 
+Platform notes: 
+
+* Windows: If you are running on Windows, the `.com` file extension is needed for the command to execute correctly.
+* zsh / fish: If you use `zsh` or `fish` shells, you may need to update to a recent version (see [https://github.com/jart/cosmopolitan/issues/88](https://github.com/jart/cosmopolitan/issues/88)).
+* MacOS: These binaries work on both Intel and Apple silicon.
+
+End up using this on a non-Linux/Mac/Windows platform? Please reach out and let me know.
+
+[https://abstract.properties/work/rederr.html](https://abstract.properties/work/rederr.html)
