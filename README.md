@@ -3,6 +3,11 @@ rederr
 
 Sometimes you just want to see stdin in red and stdout in white.
 
+![rederr](https://github.com/sufianrhazi/rederr/assets/176408/a9d61bc7-69b5-4ef6-a600-d88c46020c03)
+
+
+## Usage
+
     Usage: rederr [-h|--help] CMD [ARG] ...
 
         Runs CMD with stdout like this and stderr like this.
